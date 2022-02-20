@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool DFSRec(vector<int> adj[],int s,bool visited[],bool recst[]){
+        visited[s]=true;
+        recst[s]=true;
+        for(int u:adj[s]){
+            if(visited[u]==false){
+                if(DFSRec(adj,u,visited,recst)==true){
+                    return true;
+                }
+            }
+            else if(recst[u]==true){
+                return true;
+            }
+        }
+        recst[s]=false;
+        return false;
+    }
+    bool isCyclic(int V, vector<int> adj[]) {
+        // code here
+        bool visited[V];
+        bool recst[V];
+        for(int i=0;i<V;i++){
+            visited[i]=false;
+        }
+        for(int i=0;i<V;i++){
+            recst[i]=false;
+        }
+        for(int i=0;i<V;i++){
+            if(visited[i]==false){
+                if(DFSRec(adj,i,visited,recst)==true){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
