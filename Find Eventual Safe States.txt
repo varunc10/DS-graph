@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool dfs(vector<vector<int>>& graph,vector<int>& colors,int i){
+        if(colors[i]>0){
+            return colors[i]==2;
+        }
+        colors[i]=1;
+        for(int j:graph[i]){
+            if(colors[j]==1){
+                return false;
+            }
+            else if(colors[j]==0&&!dfs(graph,colors,j)){
+                return false;
+            }
+        }
+        colors[i]=2;
+        return true;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int> v;
+        for(int i=0;i<n;i++){
+            cout<<i<<"->";
+            for(int j:graph[i]){
+                cout<<j<<" ";
+            }
+            cout<<endl;
+        }
+        vector<int> colors(n,0);
+        for(int i=0;i<n;i++){
+            if(dfs(graph,colors,i)){
+                v.push_back(i);   
+            }
+        }
+        //sort(v.begin(),v.end());
+        return v;
+    }
+};
