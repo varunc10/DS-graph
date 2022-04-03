@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool cycle(vector<vector<int>>& graph,int n,vector<int>& indegree){
+        queue<int> q;
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0){
+                q.push(i);
+            }
+        }
+        while(!q.empty()){
+            int u=q.front();
+            q.pop();
+            n--;
+            for(int l:graph[u]){
+                indegree[l]--;
+                if(indegree[l]==0){
+                    q.push(l);
+                }
+            }
+        }
+        return n==0;
+    }
+    void dfs(vector<vector<int>>& graph,vector<bool>& visited,stack<int>& s,int i){
+        visited[i]=true;
+        for(int j:graph[i]){
+            if(visited[j]==false){
+                dfs(graph,visited,s,j);
+            }
+        }
+        s.push(i);
+    }
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        vector<int> indegree(numCourses,0);
+        for(auto i:prerequisites){
+            graph[i[1]].push_back(i[0]);
+            indegree[i[0]]++;
+        }
+        vector<int> v;
+        if(!cycle(graph,numCourses,indegree)){
+            return v;
+        }
+        stack<int> s;
+        vector<bool> visited(numCourses,false);
+        for(int i=0;i<numCourses;i++){
+            if(visited[i]==false){
+                dfs(graph,visited,s,i);
+            }
+        }
+        while(!s.empty()){
+            v.push_back(s.top());
+            s.pop();
+        }
+        return v;
+    }
+};
