@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
+        unordered_map<string,vector<string>> graph;
+        map<string,int> indegree;
+        vector<string> ans;
+        for(int i=0;i<ingredients.size();i++){
+            for(string j:ingredients[i]){
+                graph[j].push_back(recipes[i]);
+                indegree[recipes[i]]++;
+            }
+        }
+        queue<string> q;
+        int n=supplies.size();
+        for(string i:supplies){
+            if(indegree[i]==0){
+                q.push(i);
+            }
+        }
+        while(!q.empty()){
+            string u=q.front();
+            q.pop();
+            for(auto i:graph[u]){
+                indegree[i]--;
+                if(indegree[i]==0){
+                    q.push(i);
+                }
+            }
+        }
+        for(auto i:recipes){
+            if(indegree[i]==0){
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
