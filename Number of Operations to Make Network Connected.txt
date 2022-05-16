@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void dfs(vector<vector<int>>& graph,vector<int>& visited,int s){
+        visited[s]=true;
+        for(auto j:graph[s]){
+            if(!visited[j]){
+                dfs(graph,visited,j);
+            }
+        }
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        int k=connections.size();
+        if(k<n-1){
+            return -1;
+        }
+        vector<int> visited(n,false);
+        int count=0;
+        vector<vector<int>> graph(n);
+        for(auto i:connections){
+            graph[i[1]].push_back(i[0]);
+            graph[i[0]].push_back(i[1]);
+        }
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                dfs(graph,visited,i);
+                count++;
+            }
+        }
+        return count-1;
+        
+    }
+};
