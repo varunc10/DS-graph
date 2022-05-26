@@ -1,0 +1,33 @@
+int Solution::solve(int A, vector<vector<int>> &B) {
+    vector<vector<pair<int,int>>> v(A+1);
+    for(auto i:B){
+        v[i[0]].push_back({i[1],i[2]});
+        v[i[1]].push_back({i[0],i[2]});
+    }
+    vector<int> parent(A+1,-1);
+    vector<bool> mst(A+1,false);
+    vector<int> key(A+1,INT_MAX);
+    key[1]=0;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+    pq.push({0,1});
+    while(!pq.empty()){
+        int u=pq.top().second;
+        pq.pop();
+        mst[u]=true;
+        for(auto l:v[u]){
+            int j=l.first;
+            int weight=l.second;
+            if(!mst[j]&&weight<key[j]){
+                key[j]=weight;
+                parent[j]=u;
+                // mst[j]=true;
+                pq.push({key[j],j});
+            }
+        }
+    }
+    int sum=0;
+    for(int i=1;i<A+1;i++){
+        sum+=key[i];
+    }
+    return sum;
+} 
