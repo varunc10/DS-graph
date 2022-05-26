@@ -1,0 +1,24 @@
+void dfs(vector<bool>& vis,vector<vector<int>> &v,int s){
+    vis[s]=true;
+    for(auto i:v[s]){
+        if(!vis[i]){
+            dfs(vis,v,i);
+        }
+    }
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+    vector<vector<int>> v(A+1);
+    for(auto i:B){
+        v[i[0]].push_back(i[1]);
+        v[i[1]].push_back(i[0]);
+    }
+    vector<bool> vis(A+1,false);
+    int count=0;
+    for(int i=1;i<A+1;i++){
+        if(!vis[i]){
+            dfs(vis,v,i);
+            count++;
+        }
+    }
+    return count;
+}
