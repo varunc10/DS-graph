@@ -1,0 +1,30 @@
+void dfs(vector<bool>& vis,vector<vector<int>> &v,int s){
+    vis[s]=true;
+    for(int i:v[s]){
+        if(!vis[i]){
+            dfs(vis,v,i);
+        }
+    }
+}
+int Solution::motherVertex(int A, vector<vector<int> > &B) {
+    vector<vector<int>> v(A+1);
+    for(auto i:B){
+        v[i[0]].push_back(i[1]);
+    }
+    vector<bool> vis(A+1,false);
+    int j;
+    for(int i=0;i<A+1;i++){
+        if(!vis[i]){
+            dfs(vis,v,i);
+            j=i;
+        }
+    }
+    fill(vis.begin(),vis.end(),false);
+    dfs(vis,v,j);
+    for(int i=1;i<A+1;i++){
+        if(!vis[i]){
+            return 0;
+        }
+    }
+    return 1;
+}
