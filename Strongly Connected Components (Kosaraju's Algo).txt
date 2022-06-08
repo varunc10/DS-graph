@@ -1,0 +1,47 @@
+void dfs(vector<vector<int>>& graph,vector<bool>& vis,int v){
+	    vis[v]=true;
+	    for(auto i:graph[v]){
+	        if(!vis[i]){
+	            dfs(graph,vis,i);
+	        }
+	    }
+	}
+	void topoSort(vector<int> adj[],vector<bool>& vis,int v,stack<int>& s){
+	    vis[v]=true;
+	    for(auto i:adj[v]){
+	        if(!vis[i]){
+	            topoSort(adj,vis,i,s);
+	        }
+	    }
+	    s.push(v);
+	}
+    int kosaraju(int V, vector<int> adj[])
+    {
+        //code here
+        vector<vector<int>> graph(V);
+        vector<bool> vis(V,false);
+        for(int i=0;i<V;i++){
+            for(auto j:adj[i]){
+                graph[j].push_back(i);
+            }
+        }
+        stack<int> s;
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                topoSort(adj,vis,i,s);
+            }
+        }
+        for(int i=0;i<V;i++){
+            vis[i]=false;
+        }
+        int count=0;
+        while(!s.empty()){
+            int u=s.top();
+            if(!vis[u]){
+                dfs(graph,vis,u);
+                count++;
+            }
+            s.pop();
+        }
+        return count;
+    }
