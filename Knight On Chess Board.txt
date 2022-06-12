@@ -1,0 +1,28 @@
+int Solution::knight(int A, int B, int C, int D, int E, int F) {
+    vector<pair<int,int>> dir{{-2,-1},{-2,1},{-1,-2},{-1,2},{1,-2},{1,2},{2,-1},{2,1}};
+    queue<pair<int,int>> q;
+    vector<vector<int>> dist(A+1,vector<int>(B+1,0));
+    q.push({C,D});
+    while(!q.empty()){
+        int sz=q.size();
+        while(sz--){
+            auto p=q.front();
+            if(p.first==E&&p.second==F){
+                return dist[p.first][p.second];
+            }
+            q.pop();
+            for(auto k:dir){
+                int i=p.first+k.first;
+                int j=p.second+k.second;
+                if(i>=1&&i<=A&&j>=1&&j<=B&&dist[i][j]==0){
+                    dist[i][j]=dist[p.first][p.second]+1;
+                    q.push({i,j});
+                }
+            }
+        }
+    }
+    if(dist[E][F]==0){
+        return -1;
+    }
+    return dist[E][F];
+}
