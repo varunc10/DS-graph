@@ -1,0 +1,43 @@
+int helpaterp(vector<vector<int>> hospital)
+    {
+        //code here
+        queue<pair<int,int>> q;
+        vector<pair<int,int>> dir{{-1,0},{0,-1},{1,0},{0,1}};
+        int n=hospital.size();
+        int m=hospital[0].size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(hospital[i][j]==2){
+                    q.push({i,j});
+                }
+            }
+        }
+        int count=-1;
+        while(!q.empty()){
+            int size=q.size();
+            while(size--){
+                auto p=q.front();
+                q.pop();
+                for(auto k:dir){
+                    int i=p.first+k.first;
+                    int j=p.second+k.second;
+                    if(i>=0&&i<n&&j>=0&&j<m&&hospital[i][j]==1){
+                        hospital[i][j]=2;
+                        q.push({i,j});
+                    }
+                }
+            }
+            count++;
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(hospital[i][j]==1){
+                    return -1;
+                }
+            }
+        }
+        if(count==-1){
+            return 0;
+        }
+        return count;
+    }
