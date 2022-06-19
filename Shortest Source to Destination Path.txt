@@ -1,0 +1,32 @@
+int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
+        // code here
+        if(A[0][0]==0||A[X][Y]==0){
+            return -1;
+        }
+        vector<pair<int,int>> v{{-1,0},{0,-1},{1,0},{0,1}};
+        queue<pair<int,int>> q;
+        vector<vector<int>> dist(N,vector<int>(M,0));
+        q.push({0,0});
+        while(!q.empty()){
+            auto p=q.front();
+            q.pop();
+            if(p.first==X&&p.second==Y){
+                dist[p.first][p.second];
+            }
+            for(auto k:v){
+                int i=p.first+k.first;
+                int j=p.second+k.second;
+                if(i<N&&i>=0&&j<M&&j>=0&&A[i][j]==1&&dist[i][j]==0){
+                    dist[i][j]=dist[p.first][p.second]+1;
+                    q.push({i,j});
+                }
+                if(dist[X][Y]!=0){
+                    return dist[X][Y];
+                }
+            }
+        }
+        if(dist[X][Y]==0){
+            return -1;
+        }
+        return dist[X][Y];
+    }
