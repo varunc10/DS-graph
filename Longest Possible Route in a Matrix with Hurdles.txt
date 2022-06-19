@@ -1,0 +1,25 @@
+int dfs(vector<vector<int>> matrix,int i,int j,int xd,int yd){
+        int m=matrix.size();
+        int n=matrix[0].size();
+        if(i<0||i>=m||j<0||j>=n||matrix[i][j]==0){
+            return INT_MIN;
+        }
+        if(i==xd&&j==yd){
+           return 0;
+        }
+        matrix[i][j]=0;
+        int p=dfs(matrix,i,j-1,xd,yd)+1;
+        int q=dfs(matrix,i-1,j,xd,yd)+1;
+        int r=dfs(matrix,i,j+1,xd,yd)+1;
+        int s=dfs(matrix,i+1,j,xd,yd)+1;
+        return max(p,max(q,max(r,s)));
+    }
+    int longestPath(vector<vector<int>> matrix, int xs, int ys, int xd, int yd)
+    {
+        // code here
+        int ans=dfs(matrix,xs,ys,xd,yd);
+        if(ans<0){
+            return -1;
+        }
+        return ans;
+    }
